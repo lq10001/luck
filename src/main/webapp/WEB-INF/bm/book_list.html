@@ -1,0 +1,242 @@
+
+<div class="row">
+	<div class="col-sm-12">
+		<section class="panel">
+			<div class="panel-body">
+
+				<div class="row">
+					<div class="col-lg-12">
+						<form class="navbar-form navbar-left form-inline" id="pagerForm" action="${ctxPath}/book" method="post">
+
+							<input type="hidden" name="pageSize" value="${page.pageSize}" />
+							<input type="hidden" id="pageCurrent" name="pageCurrent" value="${page.pageNumber}" />
+
+							<label for="name" class="control-label">名称：</label>
+							<input type="text" id="name"  name="name" value="${book.name!}" class="form-control" size="12"  />
+							<label for="barcode" class="control-label">条形码：</label>
+							<input type="text"  id="barcode" name="barcode" value="${book.barcode!}" class="form-control" size="12" />
+
+							<button type="button" class="btn btn-primary" id = "btnSearch">查询</button>
+							<button type="button" class="btn btn-info" id="btnRestore">清空查询</button>
+						</form>
+					</div>
+
+				</div>
+
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="btn-group">
+							<button id="btnNew" onclick="addNew('book/edit')" class="btn btn-success">
+								<i class="fa fa-plus"></i> 添加
+							</button>
+							<button  id="btnRefresh" class="btn btn-info">
+								 <i class="fa fa-refresh"></i>刷新
+							</button>
+							<button id="btnImport"  class="btn btn-default">
+								 <i class="fa fa-upload"></i>导入数据
+							</button>
+							<button id="btnExport"  class="btn btn-default">
+								 <i class="fa fa-expand"></i>导出Excel
+							</button>
+						</div>
+						<div class="btn-group pull-right">
+							<button class="btn btn-default dropdown-toggle" data-toggle="dropdown">Tools <i class="fa fa-angle-down"></i>
+							</button>
+							<ul class="dropdown-menu pull-right">
+								<li><a href="#">Print</a></li>
+								<li><a href="#">Save as PDF</a></li>
+								<li><a href="#">Export to Excel</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+
+				<div class="row ">
+					<div class="col-lg-12">
+							<table class="table table-striped table-hover table-bordered" style="margin-top:10px;margin-bottom: 0px;">
+								<thead>
+								<tr>
+									<th>编号</th>
+
+									<th>名称</th>
+
+									<th>条形码</th>
+
+									<th>入库时间</th>
+
+									<th>已借数量</th>
+
+									<th>数量</th>
+									<th class="col-lg-1">操作</th>
+								</tr>
+								</thead>
+								<tbody>
+								<%
+								for(obj in list_obj){
+								%>
+								<tr class="">
+									<td>
+										${obj.id!}
+									</td>
+
+									<td>
+										${obj.name!}
+									</td>
+
+									<td>
+										${obj.barcode!}
+									</td>
+
+									<td>
+										${obj.date1!,'yyyy-MM-dd'}
+									</td>
+
+									<td>
+										${obj.borrownum!}
+									</td>
+
+									<td>
+										${obj.num!}
+									</td>
+									<td>
+										<button onclick="addNew('book/edit?id=${obj.id!}');" class="btn btn-success btn-sm">
+											<i class="fa fa-edit"></i> 修改
+										</button>
+										<button onclick="onDel('book/del?id=${obj.id}');" class="btn btn-warning btn-sm">
+											<i class=" fa fa-trash-o"></i>删
+										</button>
+									</td>
+								</tr>
+								<%}%>
+								</tbody>
+							</table>
+						</div>
+
+				</div>
+
+				<div class="row">
+					<div class="col-lg-2">
+						<h3><span class="label label-default">共${page.recordCount}条</span></h3>
+					</div>
+					<div class="col-lg-10">
+							<ul class="pagination navbar-right" style="clear: both" >
+								<li class="disabled"><a href="#">1</a></li>
+								<li class="active"><a href="#">2</a></li>
+								<li><a href="#">3</a></li>
+								<li><a href="#">4</a></li>
+								<li><a href="#">5</a></li>
+								<li><a href="#">&raquo;</a></li>
+							</ul>
+					</div>
+				</div>
+
+				<div  role="dialog" tabindex="-1" id="editModel" data-backdrop="static" class="modal fade">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+								<h4 class="modal-title">编辑数据</h4>
+							</div>
+							<form class="" id="editForm" action="book/save" method="post">
+							<div class="modal-body" id="modelBody">
+
+							</div>
+							</form>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+								<button type="button" id="btnSave" class="btn btn-success">保存</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</section>
+	</div>
+</div>
+<script type="text/javascript">
+
+	function addNew(url)
+	{
+		$.ajax({
+			type: 'get',//可选get
+			url: url,
+			dataType: 'html',
+			success: function(msg){
+				$('#modelBody').html(msg);
+				$('#editModel').modal('show');
+			},
+			error: function(){
+				alert('获取数据失败');
+			}
+		})
+	}
+
+	function onDel(url)
+	{
+		$.ajax({
+			type: 'get',//可选get
+			url: url,
+			dataType: 'json',
+			success: function(msg){
+
+			},
+			error: function(){
+				alert('获取数据失败');
+			}
+		})
+	}
+
+	$(function() {
+		$('.pagination').twbsPagination({
+			startPage:${page.pageNumber},
+			totalPages: ${page.pageCount},
+			visiblePages: 6,
+			first:'首页',
+			prev:'前一页',
+			next:'后一页',
+			last:'末页',
+			onPageClick: function (event, page) {
+				$('#pageCurrent').val(page);
+				onGo();
+			}
+		});
+
+		$('#btnSearch').on('click', function(event) {
+			$('#pageCurrent').val(1);
+			onGo();
+		});
+
+		$('#btnRestore').on('click', function(event) {
+			$('#pageCurrent').val(1);
+			$('#name').val('');
+			$('#barcode').val('');
+			onGo();
+		});
+
+		$('#btnRefresh').on('click', function(event) {
+			onGo();
+		});
+
+		$('#btnSave').on('click', function(event) {
+			$.post($("#editForm").attr('action'),
+					$("#editForm").serialize(),
+					function (msg) {
+						onGo();
+						alert(msg.response());
+					},
+					"json");
+		});
+
+		function onGo()
+		{
+			$.post($("#pagerForm").attr('action'),
+					$("#pagerForm").serialize(),
+					function (msg) {
+						$(".wrapper").html(msg);
+					},
+					"html");
+		}
+	});
+
+</script>

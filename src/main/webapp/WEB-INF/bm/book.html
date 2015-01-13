@@ -1,0 +1,65 @@
+
+
+<div class="bjui-pageContent">
+
+	<form method="post" action="${ctxPath}/book/save" id="j_custom_form" class="pageForm" data-toggle="validate">
+
+
+    <input type="hidden" id="id" name="id" value="${book.id!}">
+
+		<div class="pageFormContent" data-layout-h="0">
+			<table class="table table-condensed table-hover" width="100%">
+				<tbody>
+				<tr>
+					<td>
+						<label for="j_custom_name" class="control-label x85">名称：</label>
+						<input type="text" name="name" id="j_custom_name" value="${book.name!}" data-rule="required" size="15">
+					</td>
+
+					<td>
+						<label for="j_barcode" class="control-label x85">条形码：</label>
+						<input type="text" name="barcode" id="j_barcode" value="${book.barcode!}" data-rule="required" size="15">
+					</td>
+					<td>
+						<label for="j_custom_indate" class="control-label x85">入库时间：</label>
+						<input type="text" name="date1" id="j_custom_indate" value="${book.date1!,'yyyy-MM-dd'}" data-toggle="datepicker" data-rule="required;date" size="15">
+					</td>
+				</tr>
+
+				<tr>
+					<td>
+						<label for="j_num" class="control-label x85">数量：</label>
+						<input type="text" name="num" id="j_num" value="${book.num!}" data-rule="required" size="15">
+					</td>
+
+					<td>
+						<label for="j_borrownum" class="control-label x85">已借数量：</label>
+						<input type="text" name="borrownum" id="j_borrownum" value="${book.borrownum!}" data-rule="required" size="15">
+					</td>
+					<td>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="3">
+						<label for="j_memo" class="control-label x85">备注：</label>
+						<textarea name="memo" id="j_memo" data-toggle="autoheight" cols="60" rows="2">${book.memo!}</textarea>
+
+					</td>
+				</tr>
+				<tr>
+					<td colspan="3">
+					</td>
+				</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div class="bjui-footBar">
+			<ul>
+				<li><button type="button" class="btn-close" data-icon="close">取消</button></li>
+				<li><button type="submit" class="btn-default" data-icon="save">保存</button></li>
+			</ul>
+		</div>
+
+	</form>
+</div>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache updateCheck="false" monitoring="autodetect" dynamicConfig="false">
+
+    <diskStore path="java.io.tmpdir"/>
+
+    <defaultCache
+           maxElementsInMemory="1000"
+           eternal="false"
+           timeToIdleSeconds="3600"
+           timeToLiveSeconds="3600"
+           overflowToDisk="true"
+           diskSpoolBufferSizeMB="10" />
+
+    <!-- user -->
+    <cache name="info"
+           maxElementsInMemory="10000"
+           eternal="false"
+           timeToIdleSeconds="10800"
+           timeToLiveSeconds="10800"
+           overflowToDisk="false" />
+    <cache name="/"
+           maxElementsInMemory="10000"
+           eternal="false"
+           timeToIdleSeconds="10800"
+           timeToLiveSeconds="10800"
+           overflowToDisk="false" />
+
+
+    <!-- user -->
+    <cache name="user"
+           maxElementsInMemory="10000"
+           eternal="false"
+           timeToIdleSeconds="10800"
+           timeToLiveSeconds="10800"
+           overflowToDisk="false" />
+
+    <!-- product -->
+    <cache name="product"
+           maxElementsInMemory="10000"
+           eternal="false"
+           timeToIdleSeconds="10800"
+           timeToLiveSeconds="10800"
+           overflowToDisk="false" />
+
+</ehcache>

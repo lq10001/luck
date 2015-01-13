@@ -1,0 +1,138 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.ly</groupId>
+  <artifactId>web</artifactId>
+  <packaging>war</packaging>
+  <version>1.0-SNAPSHOT</version>
+  <name>web Maven Webapp</name>
+  <url>http://maven.apache.org</url>
+
+    <properties>
+        <junit.version>4.12</junit.version>
+        <nutz.version>1.b.51</nutz.version>
+        <beetl.version>2.1.3</beetl.version>
+        <fastjson.version>1.2.3</fastjson.version>
+        <servlet.version>3.1.0</servlet.version>
+        <mysql.version>5.1.34</mysql.version>
+        <druid.version>1.0.12</druid.version>
+        <commons.version>3.3.2</commons.version>
+        <supercsv.version>2.2.0</supercsv.version>
+        <c3p0.version>0.9.1.2</c3p0.version>
+        <ehcache.version>2.9.0</ehcache.version>
+        <freemarker.version>2.3.21</freemarker.version>
+
+
+        <jfinal.version>1.9</jfinal.version>
+        <jfinal-tablebind.version>0.1</jfinal-tablebind.version>
+        <jfinal-routebind.version>0.1</jfinal-routebind.version>
+        <jfinal-web.version>0.2</jfinal-web.version>
+
+    </properties>
+
+
+  <dependencies>
+      <dependency>
+          <groupId>org.freemarker</groupId>
+          <artifactId>freemarker</artifactId>
+          <version>${freemarker.version}</version>
+      </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>${junit.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+      <dependency>
+          <groupId>org.nutz</groupId>
+          <artifactId>nutz</artifactId>
+          <version>${nutz.version}</version>
+      </dependency>
+
+      <dependency>
+          <groupId>org.beetl</groupId>
+          <artifactId>beetl-core</artifactId>
+          <version>${beetl.version}</version>
+      </dependency>
+
+      <dependency>
+          <groupId>com.alibaba</groupId>
+          <artifactId>fastjson</artifactId>
+          <version>${fastjson.version}</version>
+      </dependency>
+
+      <dependency>
+          <groupId>javax.servlet</groupId>
+          <artifactId>javax.servlet-api</artifactId>
+          <version>${servlet.version}</version>
+          <scope>provided</scope>
+      </dependency>
+
+      <dependency>
+          <groupId>mysql</groupId>
+          <artifactId>mysql-connector-java</artifactId>
+          <version>${mysql.version}</version>
+      </dependency>
+
+      <dependency>
+          <groupId>com.alibaba</groupId>
+          <artifactId>druid</artifactId>
+          <version>${druid.version}</version>
+      </dependency>
+
+      <dependency>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-lang3</artifactId>
+          <version>${commons.version}</version>
+      </dependency>
+
+      <dependency>
+          <groupId>net.sf.supercsv</groupId>
+          <artifactId>super-csv</artifactId>
+          <version>${supercsv.version}</version>
+      </dependency>
+
+      <dependency>
+          <groupId>com.jfinal</groupId>
+          <artifactId>jfinal</artifactId>
+          <version>${jfinal.version}</version>
+      </dependency>
+
+      <dependency>
+          <groupId>c3p0</groupId>
+          <artifactId>c3p0</artifactId>
+          <version>${c3p0.version}</version>
+      </dependency>
+
+      <dependency>
+          <groupId>net.sf.ehcache</groupId>
+          <artifactId>ehcache</artifactId>
+          <version>${ehcache.version}</version>
+      </dependency>
+
+      <dependency>
+          <groupId>cn.dreampie</groupId>
+          <artifactId>jfinal-tablebind</artifactId>
+          <version>${jfinal-tablebind.version}</version>
+      </dependency>
+
+      <dependency>
+          <groupId>cn.dreampie</groupId>
+          <artifactId>jfinal-routebind</artifactId>
+          <version>${jfinal-routebind.version}</version>
+      </dependency>
+
+      <dependency>
+          <groupId>cn.dreampie</groupId>
+          <artifactId>jfinal-web</artifactId>
+          <version>${jfinal-web.version}</version>
+      </dependency>
+
+  </dependencies>
+
+
+  <build>
+    <finalName>web</finalName>
+  </build>
+</project>

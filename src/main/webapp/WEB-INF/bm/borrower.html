@@ -1,0 +1,41 @@
+<div class="bjui-pageContent">
+	<form action="${ctxPath}/borrower/save" class="pageForm" data-toggle="validate">
+		<input type="hidden" id="id" name="id" value="${borrower.id!}">
+		<div class="pageFormContent" data-layout-h="0">
+			<table class="table table-condensed table-hover" width="100%">
+				<tbody>
+				<tr>
+					<td>
+						<label for="j_name" class="control-label x85">姓名:</label>
+						<input type="text" name="name" id="j_name" value="${borrower.name!}" data-rule="required" size="30">
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label for="j_qrcode" class="control-label x85">二维码:</label>
+						<input type="text" name="qrcode" id="j_qrcode" value="${borrower.qrcode!}"  size="30">
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label for="j_no" class="control-label x85">员工号:</label>
+						<input type="text" name="no" id="j_no" value="${borrower.no!}"  size="30">
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label for="j_memo" class="control-label x85">备注:</label>
+						<input type="text" name="memo" id="j_memo" value="${borrower.memo!}" size="30">
+					</td>
+				</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="bjui-footBar">
+			<ul>
+				<li><button type="button" class="btn-close">关闭</button></li>
+				<li><button type="submit" class="btn-default" >保存</button></li>
+			</ul>
+		</div>
+	</form>
+</div>

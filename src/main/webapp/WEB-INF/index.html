@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="keywords" content="admin, dashboard, bootstrap, template, flat, modern, theme, responsive, fluid, retina, backend, html5, css, css3">
+  <meta name="description" content="">
+  <meta name="author" content="ThemeBucket">
+
+    <base href="${ctxPath}/"/>
+
+  <link rel="shortcut icon" href="#" type="image/png">
+
+  <title>AdminX</title>
+
+  <!--icheck-->
+  <link href="js/iCheck/skins/minimal/minimal.css" rel="stylesheet">
+  <link href="js/iCheck/skins/square/square.css" rel="stylesheet">
+  <link href="js/iCheck/skins/square/red.css" rel="stylesheet">
+  <link href="js/iCheck/skins/square/blue.css" rel="stylesheet">
+
+  <!--dashboard calendar-->
+  <link href="css/clndr.css" rel="stylesheet">
+
+
+  <!--common-->
+  <link href="/css/style.css" rel="stylesheet">
+  <link href="/css/style-responsive.css" rel="stylesheet">
+
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!--[if lt IE 9]>
+  <script src="js/html5shiv.js"></script>
+  <script src="js/respond.min.js"></script>
+  <![endif]-->
+</head>
+
+<body class="sticky-header">
+
+<section>
+    <!-- left side start-->
+    <div class="left-side sticky-left-side">
+
+        <!--logo and iconic logo start-->
+        <div class="logo">
+            <a href="index.html"><img src="images/logo.png" alt=""></a>
+        </div>
+
+        <div class="logo-icon text-center">
+            <a href="index.html"><img src="/images/logo_icon.png" alt=""></a>
+        </div>
+        <!--logo and iconic logo end-->
+
+        <div class="left-side-inner">
+
+            <!-- visible to small devices only -->
+
+            <!--sidebar nav start-->
+            <ul class="nav nav-pills nav-stacked custom-nav">
+
+                <%
+                for(obj in pmenus){
+                %>
+                <li  class="menu-list ${ obj.name == 'bm' ? 'nav-active' }">
+                    <a href="javascript:;">
+                        <i class="fa fa-home"></i>
+                        <span class="title">${obj.cnname}</span>
+                    </a>
+                    <ul class="sub-menu-list">
+                        <%
+                        for(obj2 in menus){
+                        if(obj.name == obj2.pname)
+                        {
+                        %>
+                        <li>
+                            <a href="${obj2.url}">
+                                <i class="icon-bulb fa fa-dot-circle-o"></i>${obj2.cnname}
+                            </a>
+                        </li>
+                        <%}}%>
+                    </ul>
+                    <%}%>
+
+                <li><a href="login.html"><i class="fa fa-sign-in"></i> <span>Login Page</span></a></li>
+
+            </ul>
+            <!--sidebar nav end-->
+
+        </div>
+    </div>
+    <!-- left side end-->
+    
+    <!-- main content start-->
+    <div class="main-content" >
+        <!-- header section start-->
+        <div class="header-section">
+            <!--toggle button start-->
+            <a class="toggle-btn"><i class="fa fa-bars"></i></a>
+            <!--toggle button end-->
+            <!--notification menu start -->
+            <div class="menu-right">
+                <ul class="notification-menu">
+                    <li>
+                        <a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                            <img src="images/photos/user-avatar.png" alt="" />
+                            Zhong Wei
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-usermenu pull-right">
+                            <li><a href="#"><i class="fa fa-user"></i>  Profile</a></li>
+                            <li><a href="#"><i class="fa fa-cog"></i>  Settings</a></li>
+                            <li><a href="#"><i class="fa fa-sign-out"></i> Log Out</a></li>
+                        </ul>
+                    </li>
+
+                </ul>
+            </div>
+            <!--notification menu end -->
+
+        </div>
+        <!-- header section end-->
+
+        <div class="page-heading">
+            <ul class="breadcrumb">
+                <li>图书管理</li>
+                <li class="active">书籍管理</li>
+            </ul>
+        </div>
+
+
+        <!--body wrapper start-->
+        <div class="wrapper">
+
+        </div>
+        <!--body wrapper end-->
+
+    </div>
+    <!-- main content end-->
+</section>
+
+<!-- Placed js at the end of the document so the pages load faster -->
+<script src="js/jquery-1.10.2.min.js"></script>
+<script src="js/jquery-ui-1.9.2.custom.min.js"></script>
+<script src="js/jquery-migrate-1.2.1.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/modernizr.min.js"></script>
+<script src="js/jquery.nicescroll.js"></script>
+<script src="/js/jquery.twbsPagination.min.js"></script>
+
+<!--common scripts for all pages-->
+<script src="/js/scripts.js"></script>
+
+<script>
+
+    $(function() {
+
+        $('.sub-menu-list a').on('click', function(event) {
+            var link = $(this).attr('href');
+            $.ajax({
+                type: 'get',//可选get
+                url: link,
+                dataType: 'html',//服务器返回的数据类型 可选XML ,Json jsonp script html text等
+                success: function(msg){
+                    $(".wrapper").html(msg);
+                },
+                error: function(){
+                    alert('获取数据失败');
+                }
+            })
+
+            return false;
+        });
+
+
+
+
+
+    });
+</script>
+
+
+</body>
+</html>
