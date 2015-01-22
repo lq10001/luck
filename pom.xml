@@ -18,25 +18,11 @@
         <druid.version>1.0.12</druid.version>
         <commons.version>3.3.2</commons.version>
         <supercsv.version>2.2.0</supercsv.version>
-        <c3p0.version>0.9.1.2</c3p0.version>
         <ehcache.version>2.9.0</ehcache.version>
-        <freemarker.version>2.3.21</freemarker.version>
-
-
-        <jfinal.version>1.9</jfinal.version>
-        <jfinal-tablebind.version>0.1</jfinal-tablebind.version>
-        <jfinal-routebind.version>0.1</jfinal-routebind.version>
-        <jfinal-web.version>0.2</jfinal-web.version>
-
     </properties>
 
 
   <dependencies>
-      <dependency>
-          <groupId>org.freemarker</groupId>
-          <artifactId>freemarker</artifactId>
-          <version>${freemarker.version}</version>
-      </dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
@@ -94,43 +80,12 @@
       </dependency>
 
       <dependency>
-          <groupId>com.jfinal</groupId>
-          <artifactId>jfinal</artifactId>
-          <version>${jfinal.version}</version>
-      </dependency>
-
-      <dependency>
-          <groupId>c3p0</groupId>
-          <artifactId>c3p0</artifactId>
-          <version>${c3p0.version}</version>
-      </dependency>
-
-      <dependency>
           <groupId>net.sf.ehcache</groupId>
           <artifactId>ehcache</artifactId>
           <version>${ehcache.version}</version>
       </dependency>
 
-      <dependency>
-          <groupId>cn.dreampie</groupId>
-          <artifactId>jfinal-tablebind</artifactId>
-          <version>${jfinal-tablebind.version}</version>
-      </dependency>
-
-      <dependency>
-          <groupId>cn.dreampie</groupId>
-          <artifactId>jfinal-routebind</artifactId>
-          <version>${jfinal-routebind.version}</version>
-      </dependency>
-
-      <dependency>
-          <groupId>cn.dreampie</groupId>
-          <artifactId>jfinal-web</artifactId>
-          <version>${jfinal-web.version}</version>
-      </dependency>
-
   </dependencies>
-
 
   <build>
     <finalName>web</finalName>
