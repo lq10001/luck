@@ -7,23 +7,27 @@ import org.nutz.dao.Cnd;
 import org.nutz.dao.Dao;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
+import org.nutz.lang.Files;
 import org.nutz.log.Log;
 import org.nutz.log.Logs;
 import org.nutz.mvc.annotation.*;
 import org.nutz.mvc.filter.CheckSession;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
 import com.ly.bm.vo.Borrower;
 import com.ly.bm.service.BorrowerService;
+import org.nutz.mvc.upload.UploadAdaptor;
 
 
 @IocBean
 @At("/borrower")
 @Fail("json")
-@Filters(@By(type=CheckSession.class, args={"username", "/WEB-INF/login.html"}))
+//@Filters(@By(type=CheckSession.class, args={"username", "/WEB-INF/login.html"}))
 public class BorrowerAction {
 
 	private static final Log log = Logs.getLog(BorrowerAction.class);
@@ -67,6 +71,42 @@ public class BorrowerAction {
         }
         return Dwz.rtnMap((rtnObject == null) ? false : true, "tab_borrower", true);
     }
+
+
+
+    @At
+    @Ok("json")
+    @AdaptBy(type = UploadAdaptor.class, args = { "ioc:uploadFile" })
+    public Long upload( @Param("qrcode")String qrcode,
+                                    @Param("file1") File f1,
+                                    HttpServletRequest request
+    ) throws IOException {
+        Object rtnObject = null;
+        Borrower bb = borrowerService.fetch(Cnd.where("qrcode","=",qrcode));
+        if (bb == null)
+        {
+            return 2L;
+        }
+
+        if (f1 == null)
+        {
+            return 1L;
+        }
+
+        String webPath =  request.getServletContext().getRealPath("/");
+        if (f1 != null)
+        {
+            String filePath = "upload/"+bb.getQrcode() +".jpg";
+            Files.copyFile(f1, new File(webPath + filePath));
+            bb.setImgurl("/"+filePath);
+            bb.setState(1L);
+//            borrowerService.dao.up
+            borrowerService.dao().updateIgnoreNull(bb);
+        }
+
+        return 10L;
+    }
+
 
     @At
     @Ok("json")

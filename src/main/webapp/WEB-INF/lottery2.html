@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>
+        MK年会抽奖
+    </title>
+    <base href="${ctxPath}"/>
+    <script type="text/javascript" src="/js/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="/js2/wind-core.js"></script>
+    <script type="text/javascript" src="/js2/wind-compiler.js"></script>
+    <script type="text/javascript" src="/js2/wind-builderbase.js"></script>
+    <script type="text/javascript" src="/js2/wind-async.js"></script>
+
+
+
+    <link rel="stylesheet" type="text/css" href="http://oschina.net/css/reset_y.css">
+    <style type="text/css">
+        body{
+            background-color:#FFF;
+            font-family: 微软雅黑, Verdana, sans-serif, 宋体;
+        }
+        .controls{
+            background-color:#EEE;
+            height:50px;
+            line-height:50px;
+            text-align:center;
+        }
+        .controls input,.controls button{
+            height:25px;
+            margin:12px 0px;
+        }
+        .controls button{
+            margin-left:10px;
+            line-height:normal;
+        }
+        .controls input#choose_count{
+            margin-left:10px;
+        }
+        .canvas{
+            text-align:center;
+            margin-top: 5px;
+        }
+        .canvas li{
+            list-style:none;
+            width:80px;
+            height:80px;
+            float:left;
+            margin:4px;
+            text-align:center;
+            line-height:80px;
+            border:2px solid #FFF;
+            -webkit-transition: width 0.4s ease,height 0.4s ease;
+            -moz-transition: width 0.4s ease,height 0.4s ease;
+            -ms-transition: width 0.4s ease,height 0.4s ease;
+            -o-transition: width 0.4s ease,height 0.4s ease;
+            transition: width 0.4s ease,height 0.4s ease;
+        }
+        .canvas li img{
+            width:80px;
+            height:80px;
+        }
+        .canvas li.active{
+            border:2px solid #A00;
+            color:#FFF;
+        }
+        .chosen{
+            position: absolute;
+            width: 200px;
+            height:250px;
+            text-align:center;
+            background-color: #EEE;
+            color: #A00;
+            font-size: 30px;
+            display: none;
+        }
+        .chosen{
+            background:url("") no-repeat;
+            background-size:200px 200px;
+        }
+        .chosen .name{
+            word-break:break-all;
+            background-color: #FFF;
+            position:absolute;
+            bottom:0;
+            left:0;
+            text-align:center;
+            width:100%;
+        }
+        .winners li{
+            width:60px;
+            height:60px;
+            float:left;
+            line-height: 60px;
+            text-align: center;
+            border: 1px solid #CCC;
+            margin: 5px;
+        }
+        .winners li img{
+            width:60px;
+            height:60px;
+        }
+        .winners .title{
+            margin: 5px;
+        }
+        .blink .name{
+            font-size:60px;
+            -webkit-transition: font-size 0.4s ease;
+            -moz-transition: font-size 0.4s ease;
+            -ms-transition: font-size 0.4s ease;
+            -o-transition: font-size 0.4s ease;
+            transition: font-size 0.4s ease;
+        }
+
+        @media (max-width: 1024px){
+            .canvas li{
+                width:30px;
+                height: 30px;
+                margin:2px;
+                line-height: 30px;
+                font-size: 12px;
+            }
+            .canvas li img{
+                width:30px;
+                height:30px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="controls">
+    总人数：
+			<span id="lottery_count" style="color:#A00">
+				200
+			</span>
+    ，抽奖人数：
+    <input type="text" id="choose_count" placeholder="抽奖人数" value="1"/>
+    <button id="lottery">
+        抽奖
+    </button>
+</div>
+<div class="canvas clearfix">
+    <ul>
+    </ul>
+</div>
+<div class="chosen">
+    <div class="img">
+    </div>
+    <div class="name">
+    </div>
+</div>
+<div class="winners">
+    <div class="title">
+        中奖者(<span id="winner_count">0</span>)
+        <a href="javascript:showWinners();">
+					<span style="font-size:14px;">
+						查看获奖名单
+					</span>
+        </a>
+    </div>
+    <ul>
+    </ul>
+</div>
+</body>
+</html>
+
+<style></style>
+<script>
+    var winners = [];
+
+    var sound1, sound2, sound3;
+
+    var allCount = function() {
+        return 200;
+    };
+
+    var loadSongs = function() {
+        sound1 = new Audio("http://www.oschina.net/uploads/e.wav");
+        sound1.load();
+        sound2 = new Audio("http://www.oschina.net/uploads/e2.wav");
+        sound2.load();
+        sound3 = new Audio("http://www.oschina.net/uploads/e3.wav");
+        sound3.load();
+    };
+
+
+    var buildLi = function(count){
+        var canvas = $(".canvas");
+        var hdimages = [
+            "http://sandbox.runjs.cn/uploads/rs/90/wwourf2n/253224_100.jpg",
+            "http://sandbox.runjs.cn/uploads/rs/90/wwourf2n/130291_100.jpg",
+            "http://sandbox.runjs.cn/uploads/rs/90/wwourf2n/139572_100.jpg",
+            "http://sandbox.runjs.cn/uploads/rs/90/wwourf2n/127735_100.jpg",
+            "http://sandbox.runjs.cn/uploads/rs/90/wwourf2n/571282_100.jpg",
+            "http://sandbox.runjs.cn/uploads/rs/90/wwourf2n/590093_100.jpg",
+            "http://sandbox.runjs.cn/uploads/rs/90/wwourf2n/912704_100.jpg",
+            "http://sandbox.runjs.cn/uploads/rs/90/wwourf2n/933828_100.jpg"
+        ];
+        var li = "<li><img src='{img}' onerror=\"this.src='http://oschina.net/img/group/man.gif'\" data-name=\"{name}\"/></li>";
+        var html = [];
+        for(var i=0;i<count;i++){
+            var image_index = Math.round(Math.random()*hdimages.length);
+            html.push(li.replace(/\{img\}/ig,hdimages[image_index]).replace(/\{name\}/ig,'OSCER'+Math.round(Math.random()*100)));
+        }
+        canvas.html(html.join('\n'));
+    };
+
+    var showWinners = function() {
+        var args = jQuery.map(winners,function(v) {
+            return v + 1;
+        }).join(",");
+        location.href = "?" + args;
+    };
+
+    var addWinner = eval(Wind.compile("async",function(no) {
+        var target = $(".canvas li").eq(no).find("img");
+        var chs = $(".chosen");
+        var win = $(".winners ul");
+        winners.push(no);
+        var li = $("<li></li>");
+        var src = target.attr("src");
+        var img = $("<img/>").attr("src", src);
+        li.append(img);
+        win.append(li);
+        $("#winner_count").html(winners.length);
+        chs.addClass("blink");
+        $await(Wind.Async.sleep(1200));
+        chs.removeClass("blink");
+    }));
+
+    var resetChosenPos = function() {
+        var chs = $(".chosen");
+        var w = $(window).width();
+        var h = $(window).height();
+        var cw = chs.width();
+        var ch = chs.height();
+        chs.css({
+            left: w / 2 - cw / 2,
+            top: h / 2 - ch / 2
+        });
+    };
+
+    var doResponsive = function() {
+        resetChosenPos();
+    };
+
+    var showChosen = eval(Wind.compile("async",function(idx) {
+        var target = $(".canvas li").eq(idx).find("img");
+        var chs = $(".chosen").show();
+        chs.css({
+            "background": "url('" + target.attr("src") + "') no-repeat",
+            "background-size": "200px 200px"
+        });
+        chs.find(".name").html(target.data("name"));
+    }));
+
+    var animate = eval(Wind.compile("async",function(idx) {
+        var others = $(".canvas li").removeClass("active");
+        var target = $(".canvas li").eq(idx).addClass("active");
+        $await(showChosen(idx));
+    }));
+
+    var buildCanvas = function(count) {
+        var canvas = $(".canvas").html("");
+        var ul = $("<ul></ul>");
+        for (var i = 0; i < count; i++) {
+            var li = $("<li></li>");
+            li.html(i + 1);
+            ul.append(li);
+        };
+        canvas.append(ul);
+    };
+
+    var finishLottery = function() {
+        var chs = $(".chosen");
+        chs.fadeOut();
+        $(".canvas li").removeClass("active");
+        $("#lottery").removeAttr('disabled')
+    };
+
+    var heartBeat = eval(Wind.compile("async",function(interval, count, itv, max_winner) {
+        var c = itv;
+        if (max_winner <= winners.length || allCount() <= winners.length) {
+            finishLottery();
+            return;
+        }
+        while (true) {
+            var no = 0;
+            do {
+                no = Math.floor(Math.random() * count);
+            } while ( jQuery . inArray ( no , winners ) != -1);
+            try {
+                sound1.play();
+            } catch(e) {}
+            $await(animate(no));
+            $await(Wind.Async.sleep(interval));
+            if (--c == 0) {
+                c = itv;
+                $await(addWinner(no));
+            }
+            if (max_winner <= winners.length || allCount() <= winners.length) {
+                finishLottery();
+                break;
+            }
+        }
+    }));
+
+    loadSongs();
+
+    $(window).resize(doResponsive);
+
+    var count = allCount();
+    var max_winner = 0;
+    var animation_count = 10;
+    var itv = 100; //ms
+
+//    buildLi(count);
+
+    $.getJSON("/data/borrowerList", function(json){
+
+        count  =  json.length;
+
+        $("#lottery_count").text(count);
+
+        var canvas = $(".canvas");
+
+        var li = "<li><img src='{img}' onerror=\"this.src='http://oschina.net/img/group/man.gif'\" data-name=\"{name}\"/></li>";
+        var html = [];
+        for(var i=0;i<count;i++){
+//        var image_index = Math.round(Math.random()*hdimages.length);
+            html.push(li.replace(/\{img\}/ig,json[i].imgurl).replace(/\{name\}/ig,json[i].name));
+
+        }
+//        alert(html);
+        canvas.html(html.join('\n'));
+
+
+    });
+
+    $("#lottery").on("click",function() {
+        if ($(this).attr('disabled')) {
+            return;
+        }
+        if (parseInt($("#choose_count").val()) > count) {
+            alert("抽奖人数不能大于总人数！");
+            return;
+        }
+        $(this).attr('disabled', 'disabled');
+
+        max_winner += parseInt($("#choose_count").val());
+
+        resetChosenPos();
+
+        heartBeat(itv, count, animation_count, max_winner).start();
+    });</script>
+<!-- Generated by RunJS (Mon Jan 19 14:36:38 CST 2015) 0ms -->

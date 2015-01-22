@@ -141,4 +141,38 @@ public class DataAction {
         return list1;
     }
 
+    @At
+    @Ok("json")
+    public String countInfo()
+    {
+        int c0 = borrowerService.count();
+        int c1 = borrowerService.count(Cnd.where("state","=",1));
+        int c2 = borrowerService.count(Cnd.where("state","=",0));
+
+        float f0 = (float)c0;
+        float f1 = (float)c1;
+        int c3 = (int)Math.ceil((f1 / f0) * 100);
+
+
+        StringBuffer sb = new StringBuffer();
+        sb.append("总人数:  ");
+        sb.append(c0);
+        sb.append(" \r\n 已签到人数:  ");
+        sb.append(c1);
+        sb.append(" \r\n未签到人数:  ");
+        sb.append(c2);
+        sb.append(" \r\n签到比:  ");
+        sb.append( c3 );
+        sb.append("%");
+
+        /*
+        Book book = bookService.fetch(Cnd.where("barcode","=",barcode));
+        if (book == null){
+            return "0";
+        }
+        */
+        return sb.toString();
+    }
+
+
 }

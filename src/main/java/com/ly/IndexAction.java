@@ -29,4 +29,11 @@ public class IndexAction {
 	{
         request.setAttribute("info", infoService.fetch(1L));
     }
+
+    @At
+    @Ok("beetl:/WEB-INF/lottery2.html")
+    public void jian(HttpServletRequest request)
+    {
+//        request.setAttribute("info", infoService.fetch(1L));
+    }
 }

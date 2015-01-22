@@ -1,0 +1,159 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>
+		MK年会抽奖
+	</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=9" />
+	<base href="${ctxPath}"/>
+    <script type="text/javascript" src="/js/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="/js2/wind-core.js"></script>
+    <script type="text/javascript" src="/js2/wind-compiler.js"></script>
+    <script type="text/javascript" src="/js2/wind-builderbase.js"></script>
+    <script type="text/javascript" src="/js2/wind-async.js"></script>
+
+    <script type="text/javascript">
+    	var winners = [];
+
+    	var addWinner = function(no){
+    		var win = $(".winners ul");
+    		winners.push(no);
+    		var li = $("<li></li>").html(no);
+    		win.append(li);
+    	};
+
+    	var resetChoosenPos = function(){
+    		var chs = $(".chosen");
+    		var w = $("body").width();
+    		var h = $("body").height();
+    		var cw = chs.width();
+    		var ch = chs.height();
+    		chs.css({
+    			left:w/2 - cw/2,
+    			top:h/2 - ch/2
+    		});
+    	};
+
+    	var showChoosen = eval(Wind.compile("async", function(idx){
+    		var chs = $(".chosen").show();
+    		chs.html(idx);
+    	}));
+
+    	var animate = eval(Wind.compile("async", function(idx){
+    		var others = $(".canvas li").removeClass("active");
+    		var target = $(".canvas li").eq(idx).addClass("active");
+    		$await(showChoosen(idx));
+    	}));
+
+    	var buildCanvas = function(count){
+    		var canvas = $(".canvas").html("");
+    		var ul = $("<ul></ul>");
+    		for (var i = 0; i < count; i++) {
+    			var li = $("<li></li>");
+    			li.html(i+1);
+     			ul.append(li);
+   			};
+   			canvas.append(ul);
+    	};
+
+        var heartBeat = eval(Wind.compile("async", function(interval,count,itv,max_winner) {
+        	buildCanvas(count);
+        	var c = itv;
+            while (true) {
+            	var no = 0;
+            	do{
+            		no = Math.floor(Math.random()*count);
+            	}while($.inArray(no,winners)!=-1);
+                $await(animate(no));
+                $await(Wind.Async.sleep(interval));
+                console.log(c);
+                if(--c==0){
+                	c = itv;
+                	addWinner(no);
+                }
+                if(max_winner<=winners.length){
+                	break;
+                }
+            }
+        }));
+
+    </script>
+    <style type="text/css">
+		body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre, 
+		form,fieldset,input,textarea,p,blockquote,th,td { 
+		padding: 0; 
+		margin: 0; 
+		} 
+		table { 
+		border-collapse: collapse; 
+		border-spacing: 0; 
+		} 
+		fieldset,img { 
+		border: 0; 
+		} 
+		address,caption,cite,code,dfn,em,strong,th,var { 
+		font-weight: normal; 
+		font-style: normal; 
+		} 
+		ol,ul { 
+		list-style: none; 
+		} 
+		caption,th { 
+		text-align: left; 
+		} 
+		h1,h2,h3,h4,h5,h6 { 
+		font-weight: normal; 
+		font-size: 100%; 
+		} 
+		q:before,q:after { 
+		content:¡±; 
+		} 
+		abbr,acronym { border: 0; 
+		}
+		/* == clearfix == */ 
+		.clearfix:after { 
+		content: "."; 
+		display: block; 
+		height: 0; 
+		clear: both; 
+		visibility: hidden; 
+		} 
+		.clearfix {display: inline-block;} 
+		* html .clearfix {height: 1%;} 
+		.clearfix {display: block;}
+		body{background-color:#FFF;}
+		.controls{background-color:#EEE;height:50px;line-height:50px;text-align:center;}
+		.controls input,.controls button{height:25px;margin:12px 0px;}
+		.controls button{margin-left:10px;}
+		.controls input#choose_count{margin-left:10px;}
+		.canvas{text-align:center;}
+		.canvas li{width:50px;height:50px;float:left;margin:5px;text-align:center;line-height:50px;border:1px solid #CCC;}
+		.canvas li.active{background-color:#333;color:#FFF;}
+		.chosen{position: absolute;width: 200px;height:200px;line-height:200px;text-align:center;display: none;background-color: #EEE;color: #A00;font-size: 30px;}
+
+    	[id^="target"]{width:5px;height:150px;background-color:#CCC;display: inline-block;-webkit-transition: height 0.4s ease;}
+    </style>
+</head>
+<body>
+	<div class="controls">
+		<input type="text" id="lottery_count" placeholder="总人数"/>
+		<input type="text" id="choose_count" placeholder="抽奖人数"/>
+		<button id="lottery">抽奖</button>
+	</div>
+	<div class="canvas clearfix">
+	</div>
+	<div class="chosen">
+
+	</div>
+	<div class="winners">
+		<ul>
+		</ul>
+	</div>
+</body>
+<script type="text/javascript">
+	resetChoosenPos();
+	$(window).resize(resetChoosenPos);
+	heartBeat(100,100,10,10).start();
+</script>
+</html>
