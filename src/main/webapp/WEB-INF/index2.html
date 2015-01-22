@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <base href="${ctxPath}/"/>
+  <meta charset="UTF-8">
+  <title>Login Page | Moqi</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+
+  <link rel="alternate icon" type="image/png" href="/amazeui/i/favicon.png">
+  <link rel="stylesheet" href="/amazeui/css/amazeui.min.css"/>
+
+</head>
+<body>
+
+<div class="am-panel am-panel-primary">
+  <div class="am-panel-hd">
+    <h3 class="am-panel-title">节目列表</h3>
+  </div>
+
+    <ul class="am-list am-list-static">
+      <%
+      for(obj in programes){
+      %>
+      <li><a href="/programe?pid=${obj.id!}">${obj.id!} -- ${obj.name!}</a></li>
+      <%}%>
+    </ul>
+
+</div>
+
+</body>
+</html>

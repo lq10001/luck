@@ -6,6 +6,8 @@ import com.ly.bm.service.BorrowerService;
 import com.ly.bm.vo.Book;
 import com.ly.bm.vo.Borrowbook;
 import com.ly.bm.vo.Borrower;
+import com.ly.score.service.ProgrameService;
+import com.ly.score.service.VipService;
 import com.ly.sys.service.InfoService;
 import com.ly.sys.vo.User;
 import com.ly.util.EnDeCode;
@@ -39,6 +41,12 @@ public class DataAction {
     @Inject
     private BorrowerService borrowerService;
 
+
+    @Inject
+    private VipService vipService;
+
+    @Inject
+    private ProgrameService programeService;
 
     @At
     @Ok("json")
@@ -165,14 +173,15 @@ public class DataAction {
         sb.append( c3 );
         sb.append("%");
 
-        /*
-        Book book = bookService.fetch(Cnd.where("barcode","=",barcode));
-        if (book == null){
-            return "0";
-        }
-        */
         return sb.toString();
     }
 
+
+    @At
+    @Ok("json")
+    public void  programeList()
+    {
+
+    }
 
 }
