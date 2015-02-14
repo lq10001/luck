@@ -5,12 +5,11 @@
     <title>
         MK年会抽奖
     </title>
-    <base href="${ctxPath}"/>
-    <script type="text/javascript" src="/js/jquery-1.10.2.min.js"></script>
-    <script type="text/javascript" src="/js2/wind-core.js"></script>
-    <script type="text/javascript" src="/js2/wind-compiler.js"></script>
-    <script type="text/javascript" src="/js2/wind-builderbase.js"></script>
-    <script type="text/javascript" src="/js2/wind-async.js"></script>
+    <script type="text/javascript" src="${ctxPath}/amazeui/js/jquery.min.js"></script>
+    <script type="text/javascript" src="${ctxPath}/js2/wind-core.js"></script>
+    <script type="text/javascript" src="${ctxPath}/js2/wind-compiler.js"></script>
+    <script type="text/javascript" src="${ctxPath}/js2/wind-builderbase.js"></script>
+    <script type="text/javascript" src="${ctxPath}/js2/wind-async.js"></script>
 
 
 
@@ -316,7 +315,7 @@
 
 //    buildLi(count);
 
-    $.getJSON("/data/borrowerList", function(json){
+    $.getJSON("${ctxPath}/data/borrowerList", function(json){
 
         count  =  json.length;
 
@@ -324,7 +323,7 @@
 
         var canvas = $(".canvas");
 
-        var li = "<li><img src='{img}' onerror=\"this.src='http://oschina.net/img/group/man.gif'\" data-name=\"{name}\"/></li>";
+        var li = "<li><img src='${ctxPath}/{img}' onerror=\"this.src='http://oschina.net/img/group/man.gif'\" data-name=\"{name}\"/></li>";
         var html = [];
         for(var i=0;i<count;i++){
 //        var image_index = Math.round(Math.random()*hdimages.length);

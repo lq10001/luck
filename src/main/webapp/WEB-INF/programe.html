@@ -3,22 +3,22 @@
 <head lang="en">
   <base href="${ctxPath}/"/>
   <meta charset="UTF-8">
-  <title>Login Page | Moqi</title>
+  <title>节目打分 | Moqi</title>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="format-detection" content="telephone=no">
   <meta name="renderer" content="webkit">
   <meta http-equiv="Cache-Control" content="no-siteapp" />
 
-  <link rel="alternate icon" type="image/png" href="/amazeui/i/favicon.png">
-  <link rel="stylesheet" href="/amazeui/css/amazeui.min.css"/>
+  <link rel="alternate icon" type="image/png" href="${ctxPath}/amazeui/i/favicon.png">
+  <link rel="stylesheet" href="${ctxPath}/amazeui/css/amazeui.min.css"/>
 
 </head>
 <body>
 
 <div class="am-panel am-panel-primary">
   <div class="am-panel-hd">
-    <h3 class="am-panel-title">节目打分</h3>
+    <h3 class="am-panel-title">节目打分 &nbsp;&nbsp;&nbsp;<a href="${ctxPath}/plist">返回</a></h3>
   </div>
 
   <div class="am-panel-bd">
@@ -30,6 +30,7 @@
 
       <br>
       <label for="num">评分:</label>
+      <br/>
       <select id="num" name="num">
 
         <%
@@ -38,19 +39,20 @@
         <option value="${i}">给${i}分</option>
         <%}%>
       </select>
-      <br />
+      <br/>
       <div class="am-cf">
         <%
         if(vp == 0){
         %>
-
+        <br/>
         <input type="submit" name="" value="打分" class="am-btn am-btn-primary am-btn-sm am-fl">
+
         <%}else{%>
-        <label >你一件评过分，不能再评分了</label>
+        <br/>
+        <label >你已经评过分，不能再评分了</label>
         <%}%>
 
         <br/>
-
         <label >评分只能一次哦</label>
       </div>
     </form>

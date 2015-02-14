@@ -17,7 +17,7 @@ public class Programe {
 	private String name;
 
 	@Column
-	private Long grade;
+	private Double grade;
 
 	public Long getId() {
 		return id;
@@ -35,11 +35,11 @@ public class Programe {
 		this.name = name;
 	}
 
-	public Long getGrade() {
+	public Double getGrade() {
 		return grade;
 	}
 
-	public void setGrade(Long grade) {
+	public void setGrade(Double grade) {
 		this.grade = grade;
 	}
 }

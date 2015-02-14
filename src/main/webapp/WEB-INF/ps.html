@@ -3,7 +3,7 @@
 <head lang="en">
   <base href="${ctxPath}/"/>
   <meta charset="UTF-8">
-  <title>节目列表 | Moqi</title>
+  <title>节目得分列表 | Moqi</title>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="format-detection" content="telephone=no">
@@ -18,15 +18,25 @@
 
 <div class="am-panel am-panel-primary">
   <div class="am-panel-hd">
-    <h3 class="am-panel-title">节目列表</h3>
+    <h3 class="am-panel-title">节目得分列表</h3>
   </div>
 
     <ul class="am-list am-list-static">
       <%
+      var i = 1;
       for(obj in programes){
       %>
-      <li><a href="${ctxPath}/programe?pid=${obj.id!}">${obj.id!} -- ${obj.name!}</a></li>
-      <%}%>
+      <li>
+        <div class="am-g">
+          <!--<div class="am-u-md-1">第${i!}名</div>-->
+          <div class="am-u-md-2">${obj.name!}</div>
+          <div class="am-u-md-9">总分:${obj.grade!}</div>
+        </div>
+      </li>
+      <%
+      i++;
+      }
+      %>
     </ul>
 
 </div>

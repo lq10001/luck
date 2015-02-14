@@ -11,6 +11,7 @@ import com.ly.sys.vo.User;
 import com.ly.util.EnDeCode;
 import org.beetl.core.statement.Program;
 import org.nutz.dao.Cnd;
+import org.nutz.dao.Dao;
 import org.nutz.dao.Sqls;
 import org.nutz.dao.sql.Sql;
 import org.nutz.ioc.loader.annotation.Inject;
@@ -34,6 +35,9 @@ import java.util.List;
 public class IndexAction {
 	
 	private static final Log log = Logs.getLog(IndexAction.class);
+
+    @Inject
+    private Dao dao;
 
     @Inject
     private InfoService infoService;
@@ -83,6 +87,14 @@ public class IndexAction {
     }
 
     @At
+    @Ok("beetl:/WEB-INF/index2.html")
+    public void plist(HttpServletRequest request)
+    {
+        request.setAttribute("programes",programeService.query(null,null));
+        request.setAttribute("page","index2.html");
+    }
+
+    @At
     @Ok("beetl:/WEB-INF/programe.html")
     public void programe(HttpServletRequest request,
                          HttpSession session,
@@ -106,10 +118,13 @@ public class IndexAction {
                       HttpSession session,
                       @Param("..")Vipprograme vipprograme)
     {
-
         Long vipid = (Long)session.getAttribute("userid");
         vipprograme.setVipid(vipid);
-        vipprogrameService.dao().insert(vipprograme);
+        Vipprograme vipprograme2 = vipprogrameService.dao().fetch(Vipprograme.class,Cnd.where("vipid","=",vipid).and("programeid","=",vipprograme.getProgrameid()));
+        if (vipprograme2 == null)
+        {
+            vipprogrameService.dao().insert(vipprograme);
+        }
 
         request.setAttribute("programes",programeService.query(null,null));
     }
@@ -121,12 +136,13 @@ public class IndexAction {
         List<Programe> programeList = programeService.query(null, null);
         for (Programe p : programeList)
         {
-//            programeService.dao().
-            Sql sql = Sqls.fetchInt("select sum(num) as num from vipprograme where programeid = "+p.getId());
-
-
+            int v_count = dao.func("vip_v","sum","num",Cnd.where("programeid","=",p.getId()).and("level","=",1));
+            int count2 = dao.func("vip_v","sum","num",Cnd.where("programeid","=",p.getId()).and("vipid","=",2));
+            Double grade = Double.valueOf(v_count * 0.7 + count2 * 0.3);
+            p.setGrade(grade);
+            this.programeService.dao().update(p);
         }
-        request.setAttribute("programes",programeService.query(null,null));
+        request.setAttribute("programes",programeService.query(Cnd.orderBy().desc("grade"),null));
     }
 
 
